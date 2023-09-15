@@ -1,7 +1,26 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { useState } from "react";
+
+function AddTask({ onButtonClick }) {
+  return (
+    <button className="bg-cyan-100 ml-2 px-2 rounded" onClick={onButtonClick}>
+      Add
+    </button>
+  );
+}
 
 function App() {
+  const [task, setTask] = useState("");
+  // const [addTask, setAddedTask] =useState(task);
+  const [tasks, setTasks] = useState([]);
+  function handleChange(event) {
+    setTask(event.target.value);
+  }
+  function handleClick() {
+    // setTasks(tasks.concat(task));
+    setTasks([...tasks, task]);
+    setTask('');
+  }
   return (
     <div className="app">
       <h1 className="flex justify-center items-center mt-8">To Do App</h1>
@@ -9,31 +28,18 @@ function App() {
         <input
           className="border-solid border-2	hover:border-2 hover:border-sky-500 border-gray-200 "
           placeholder="Add Task"
+          onChange={handleChange}
+          value={task}
         />
-        <button className="bg-red-100 ml-2 px-2 rounded">add</button>
+        <AddTask onButtonClick={handleClick} />
       </div>
-      <table class="table-auto m-9 mx-auto">
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-            <td>1961</td>
-          </tr>
-          <tr>
-            <td>Witchy Woman</td>
-            <td>1972</td>
-          </tr>
-          <tr>
-            <td>Shining Star</td>
-            <td>1975</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="tasklist">
+        {tasks.map((task, i) => 
+          <div className="text-black text-lg"
+          key={i}>{task}</div>
+        )}
+      </div>
+     
     </div>
   );
 }
